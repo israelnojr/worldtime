@@ -4,6 +4,7 @@ import 'package:world_time/screens/Locations.dart';
 import 'package:world_time/screens/Splash.dart';
 
 void main() => runApp(MaterialApp(
+  debugShowCheckedModeBanner: false,
   initialRoute: '/',
   routes: {
     '/': (context) => Splash(),

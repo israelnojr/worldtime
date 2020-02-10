@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_time/classes/world_time.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -9,14 +9,15 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
-  String time = 'loading';
-
   void setWorldTime() async {
-    WorldTime instance = WorldTime(location: 'Lagos', flag: 'lagos.png', url: 'Africa/Nigeria');
+    WorldTime instance = WorldTime(location: 'Lagos', flag: 'lagos.png', url: 'Africa/lagos');
    await instance.getTime();
-   setState(() {
-     time = instance.time;
-   });
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'location': instance.location,
+      'flag': instance.flag,
+      'time': instance.time,
+      'isDayTime': instance.isDayTime
+    });
   } 
 
   @override
@@ -28,8 +29,12 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(padding:EdgeInsets.all(50.0),
-      child: Text(time),
+      backgroundColor: Colors.blue[900],
+      body: Center(
+                child: SpinKitFadingCube(
+          color: Colors.white,
+          size: 50.0,
+        ),
       )
     );
   }
