@@ -9,7 +9,7 @@ class _HomeState extends State<Home> {
   Map data  = {};
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     print(data);
 
     String bgImage = data['isDayTime'] ? 'day.png' : 'night.png';
@@ -28,8 +28,16 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(0, 120.0, 0, 0 ),
             child: Column(
               children: <Widget>[
-                FlatButton.icon(onPressed: () {
-                  Navigator.pushNamed(context, '/locations');
+                FlatButton.icon(onPressed: () async {
+                  dynamic result = await Navigator.pushNamed(context, '/locations');
+                  setState(() {
+                    data = {
+                      'location': result['location'],
+                      'flag': result['flag'],
+                      'time': result['time'],
+                      'isDayTime': result['isDayTime']
+                    };
+                  });
                 }, 
                 icon: Icon(
                   Icons.edit_location,

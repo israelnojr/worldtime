@@ -13,13 +13,27 @@ class _ChooseLocationState extends State<ChooseLocation> {
     WorldTime(url: 'Europe/Berlin', location: 'Athens', flag: 'greece.png'),
     WorldTime(url: 'Africa/Cairo', location: 'Cairo', flag: 'egypt.png'),
     WorldTime(url: 'Africa/Lagos', location: 'Lagos', flag: 'nigeria.png'),
+    WorldTime(url: 'Africa/Accra', location: 'Accra', flag: 'ghana.png'),
     WorldTime(url: 'Africa/Nairobi', location: 'Nairobi', flag: 'kenya.png'),
     WorldTime(url: 'America/Chicago', location: 'Chicago', flag: 'usa.png'),
     WorldTime(url: 'America/New_York', location: 'New York', flag: 'usa.png'),
     WorldTime(url: 'Asia/Seoul', location: 'Seoul', flag: 'south_korea.png'),
     WorldTime(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'indonesia.png'),
+    WorldTime(url: 'Asia/Baghdad', location: 'Baghdad', flag: 'iraq.png'),
+    WorldTime(url: 'Asia/Dubai', location: 'Dubai', flag: 'UAE.png'),
+    WorldTime(url: 'Asia/Hong_Kong', location: 'Hong Kong', flag: 'china.png'),
   ];
+  void updateTime(index) async {
+    WorldTime instance = locations[index];
+    await instance.getTime();
 
+    Navigator.pop(context, {
+      'location': instance.location,
+      'flag': instance.flag,
+      'time': instance.time,
+      'isDayTime': instance.isDayTime
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +50,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
             child: Card(
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  updateTime(index);
+                },
                  title: Text( locations[index].location),
                  leading: CircleAvatar(
                    backgroundImage: AssetImage('assets/flags/${locations[index].flag}')
